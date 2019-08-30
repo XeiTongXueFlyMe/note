@@ -1,5 +1,26 @@
 # golang驱动剖析_原子操作
+
+## 干货：
+findAndModify可以保证修改+返回结果（修改前或者修改后都可以）这两个步骤的原子性
+
+```go
+change := mgo.Change{
+    Update:    bson.M{"$inc": bson.M{"seq": 1}},
+    Upsert:    true,
+    ReturnNew: true,
+}
+seqHelper := struct{ Seq int64 }{}
+if _, err := db.serialColl.With(db.sess).Find(bson.M{"_id": collName}).Apply(change, &seqHelper); err != nil {
+    return -1, err
+}
+return seqHelper.Seq, nil
+
+```
+
 ## 补充知识
+
+1. Mongodb使用读写锁来来控制并发操作,所以按照这个道理，是不会出现同时修改同一个文档（如执行++操作）导致数据出错的情况。 
+2. 因为写操作会阻塞读操作，所以是不会出现脏读的,但是mongodb在分片和复制集的时候会产生脏读
 
 ### 数据库事务由严格的定义，它必须满足4个特性：
 | 原子性(Atomicity),一致性(consistency),隔离性(Isolation),持久性(Durability)。
@@ -19,11 +40,3 @@
 * 持久性：
 
 > 一旦事务提交成功后，事务中所有的数据操作都必须被持久化到数据库中。即使在事务提交后，数据库马上崩溃，在数据库重启时，也必须保证能够通过某种机制恢复数据。
-
-
-
-## 干货：
-1. Mongodb使用读写锁来来控制并发操作,所以按照这个道理，是不会出现同时修改同一个文档（如执行++操作）导致数据出错的情况。 
-2. 因为写操作会阻塞读操作，所以是不会出现脏读的,但是mongodb在分片和复制集的时候会产生脏读
-
-findAndModify可以保证修改+返回结果（修改前或者修改后都可以）这两个步骤的原子性
