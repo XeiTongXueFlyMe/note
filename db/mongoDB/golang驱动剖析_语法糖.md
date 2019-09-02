@@ -35,6 +35,7 @@
 > $pop 删除数组的第一个或最后一个元素
 > $rename 修改字段名称
 > $bit 位操作，integer类型 
+> $regex 操作符来设置匹配字符串的正则表达式。不区分大小写的正则表达式 db.posts.find({post_text:{$regex:"runoob",$options:"$i"}})
 
 ## 聚合操作
 
