@@ -1,0 +1,36 @@
+# 关闭网卡
+> ifconfig eth1 down
+
+# 查看网关
+> route -n
+
+# 修改网关
+> route add default gw 192.168.0.1
+
+
+# 修改镜像源
+
+deb http://mirrors.aliyun.com/ubuntu/ xenial main
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial main
+ 
+deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main
+ 
+deb http://mirrors.aliyun.com/ubuntu/ xenial universe
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial universe
+deb http://mirrors.aliyun.com/ubuntu/ xenial-updates universe
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates universe
+ 
+deb http://mirrors.aliyun.com/ubuntu/ xenial-security main
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main
+deb http://mirrors.aliyun.com/ubuntu/ xenial-security universe
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security universe
+
+# 更新软件包列表
+> apt-get update
+ 
+# 休复损坏的软件包，尝试卸载出错的包，重新安装正确版本的。
+> apt-get -f install
+ 
+# 升级系统中的所有软件包
+> apt-get -y upgrade
