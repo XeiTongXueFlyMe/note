@@ -10,7 +10,7 @@ sudo apt-get install nasm
 > 可以不安装，配置参数需要填写 --disable-asm
 
 #配置编译
-./configure --prefix=${HOME}/build_libs --enable-shared --enable-pic
+./configure --prefix=${HOME}/build_libs --enable-shared --enable-pic --enable-static
 
 #编译安装
 make
